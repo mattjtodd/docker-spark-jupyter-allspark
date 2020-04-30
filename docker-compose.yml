@@ -6,33 +6,50 @@ volumes:
 services:
 
   notebook:
-    image: jupyter/all-spark-notebook:4cdbc9cdb7d1
+    image: jupyter/all-spark-notebook
     environment:
+    #image: jupyter/all-spark-notebook:4cdbc9cdb7d1
       - "JUPYTER_ENABLE_LAB=yes"
       - "SPARK_OPTS=--master=spark://spark-master:7077"
+      - "PYSPARK_PYTHON=python3"
+      - "PYSPARK_DRIVER_PYTHON=python3"
+      - "SPARK_MAJOR_VERSION=3"
     ports:
       - 8888:8888
       - 4040:4040
     command: start-notebook.sh --NotebookApp.token=''
     volumes:
       - $PWD/work:/home/jovyan/work
+      - $PWD/data:/home/jovyan/data
 
   spark-master:
-    image: bde2020/spark-master:2.4.0-hadoop2.7
+    image: bde2020/spark-master:2.4.5-hadoop2.7
     container_name: spark-master
     ports:
       - "5000:8080"
     environment:
       - INIT_DAEMON_STEP=setup_spark
+      - "spark.ui.reverseProxy=true"
+      - "spark.driver.bindAddress=0.0.0.0"
+      - "PYSPARK_PYTHON=python3"
+      - "PYSPARK_DRIVER_PYTHON=python3"
+      - "SPARK_MAJOR_VERSION=3"
+    volumes:
+      - $PWD/data:/home/jovyan/data
 
   spark-worker:
-    image: bde2020/spark-worker:2.4.0-hadoop2.7
+    image: bde2020/spark-worker:2.4.5-hadoop2.7
     container_name: spark-worker-1
     ports:
       - "8081:8081"
     environment:
       - "SPARK_MASTER=spark://spark-master:7077"
       - "spark.driver.bindAddress=0.0.0.0"
+      - "PYSPARK_PYTHON=python3"
+      - "PYSPARK_DRIVER_PYTHON=python3"
+      - "SPARK_MAJOR_VERSION=3"
+    volumes:
+      - $PWD/data:/home/jovyan/data
     deploy:
       replicas: 5
       resources:
