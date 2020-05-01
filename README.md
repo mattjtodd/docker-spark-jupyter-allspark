@@ -12,7 +12,7 @@ This is an example project to demonstrate how to connect a Jupyter notebook to a
 
 ## Services published
 
-* http://localhost:8080 - Jupyter Notebook
+* http://localhost:8888 - Jupyter Notebook
 * http://localhost:5000 - Master Spark Node
 * http://localhost:4040 - Spark Context
 * http://localhost:8081 - Worker Node(s) loadbalanced if running in swarm mode / scaled compose
