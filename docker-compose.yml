@@ -36,6 +36,7 @@ services:
       - "SPARK_MAJOR_VERSION=3"
     volumes:
       - $PWD/data:/home/jovyan/data
+      - $PWD/script:/home/jovyan/script
 
   spark-worker:
     image: bde2020/spark-worker:2.4.5-hadoop2.7
