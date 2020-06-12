@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is an example project to demonstrate how to connect a Jupyter notebook to a remote spark cluster.  Typically in the all-spark notebook the clutser is embedded in the notebook and no external connections are made.  The cluster topology here allows for understanding the paralleism of sprk jobs locally.
+This is an example project to demonstrate how to connect a Jupyter notebook to a remote spark cluster.  Typically in the all-spark notebook the clutser is embedded in the notebook and no external connections are made.  The cluster topology here allows for understanding the paralleism of spark jobs locally.
 
 ## Getting started
 
@@ -19,7 +19,16 @@ This is an example project to demonstrate how to connect a Jupyter notebook to a
 
 ## Basic Setup
 
-There's a sample dataset in the bind-mounted `/home/jovyan/data` path and an initial pyspark workbook in `/home/jovyan/work` to illustrate how to connect to the cluster.
+There's a sample dataset in the bind-mounted `/home/jovyan/data` path and an initial pyspark workbook in `/home/jovyan/work` to illustrate how to connect to the cluster. <br>
+You will also be able to see a small python script `calc-pi.py` available on the `home/jovyan/script` volume in the master node.
+This can be used to submit a job to the cluster as below: <br>
+
+## Basic job execution
+
+Once the docker containers are up and running, you can execute the following to submit a job to your local cluster: <br>
+`docker-compose exec spark-master /spark/bin/spark-submit --conf spark.pyspark.python=python3 /home/jovyan/script/calc-pi.py` <br>
+This runs the spark submit command on the spark-master service. <br>
+If you navigate to the spark master node `http://localhost:5000` you should be able to see a completed application visible in the UI. <br>
 
 ## Image Lineage
 
