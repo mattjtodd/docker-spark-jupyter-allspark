@@ -7,7 +7,8 @@ volumes:
 services:
 
   notebook:
-    image: jupyter/all-spark-notebook
+    image: jupyter/all-spark-notebook@sha256:b91f7d76c93147191a206b7cb30248be507a5311c4268d171d7f90cd517ea7ed
+    #image: jupyter/all-spark-notebook
     environment:
       - "JUPYTER_ENABLE_LAB=yes"
       - "SPARK_OPTS=--master=spark://spark-master:7077"
