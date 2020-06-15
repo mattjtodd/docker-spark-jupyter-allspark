@@ -33,5 +33,7 @@ If you navigate to the spark master node `http://localhost:5000` you should be a
 
 ## Image Lineage
 
-* The image for the notebook are from the https://jupyter-docker-stacks.readthedocs.io/en/latest/ in this case the all-spark flavour.
+* The image for the notebook are from the https://jupyter-docker-stacks.readthedocs.io/en/latest/ in this case the all-spark flavour. <br>
+A notebook image digest is being used in the docker-compose file to prevent long running updates when re-pulling the image. <br>
+Remove the version tag if you'd prefer to always pull the latest. 
 * The images for the Spark nodes are handily published by a project from a couple of years ago but still maintained by Big Data Europe - https://www.big-data-europe.eu/.  The images are built from Git Repos here - https://github.com/big-data-europe and published to Docker Hub.  It's pretty easy to rebuild if you need to configure the spark boxes to add pythin libraries or even upgrade to Spark 4.5.0 if you're interested / brave!
