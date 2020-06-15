@@ -2,6 +2,7 @@ version: "3"
 
 volumes:
   work:
+  spark-events:
 
 services:
 
@@ -37,6 +38,7 @@ services:
     volumes:
       - $PWD/data:/home/jovyan/data
       - $PWD/script:/home/jovyan/script
+      - spark-events:/tmp/spark-events
 
   spark-worker:
     image: bde2020/spark-worker:2.4.5-hadoop2.7
@@ -58,3 +60,11 @@ services:
           cpus: '0.25'
         reservations:
           cpus: '0.25'
+
+  history-server:
+    image: bde2020/spark-base:2.4.5-hadoop2.7
+    ports:
+      - 18081:18080
+    volumes:
+      - spark-events:/tmp/spark-events:ro
+    command: java -cp /spark/conf/:/spark/jars/* -Xmx1g org.apache.spark.deploy.history.HistoryServer
