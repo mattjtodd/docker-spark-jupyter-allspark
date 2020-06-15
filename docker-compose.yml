@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 volumes:
   work:
@@ -35,10 +35,14 @@ services:
       - "PYSPARK_PYTHON=python3"
       - "PYSPARK_DRIVER_PYTHON=python3"
       - "SPARK_MAJOR_VERSION=3"
+      - "SPARK_SUBMIT_ARGS=spark.eventLog.enabled=true"
     volumes:
       - $PWD/data:/home/jovyan/data
       - $PWD/script:/home/jovyan/script
       - spark-events:/tmp/spark-events
+    secrets:
+      - source: spark-defaults.conf
+        target: /spark/conf/spark-defaults.conf
 
   spark-worker:
     image: bde2020/spark-worker:2.4.5-hadoop2.7
@@ -68,3 +72,7 @@ services:
     volumes:
       - spark-events:/tmp/spark-events:ro
     command: java -cp /spark/conf/:/spark/jars/* -Xmx1g org.apache.spark.deploy.history.HistoryServer
+
+secrets:
+  spark-defaults.conf:
+    file: ./spark-defaults.conf
