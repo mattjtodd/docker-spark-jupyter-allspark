@@ -35,7 +35,6 @@ services:
       - "PYSPARK_PYTHON=python3"
       - "PYSPARK_DRIVER_PYTHON=python3"
       - "SPARK_MAJOR_VERSION=3"
-      - "SPARK_SUBMIT_ARGS=spark.eventLog.enabled=true"
     volumes:
       - $PWD/data:/home/jovyan/data
       - $PWD/script:/home/jovyan/script
