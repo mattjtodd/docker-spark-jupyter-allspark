@@ -1,14 +1,14 @@
-version: "3"
+version: "3.8"
 
 volumes:
   work:
+  spark-events:
 
 services:
 
   notebook:
     image: jupyter/all-spark-notebook
     environment:
-    #image: jupyter/all-spark-notebook:4cdbc9cdb7d1
       - "JUPYTER_ENABLE_LAB=yes"
       - "SPARK_OPTS=--master=spark://spark-master:7077"
       - "PYSPARK_PYTHON=python3"
@@ -28,7 +28,7 @@ services:
     ports:
       - "5000:8080"
     environment:
-      - INIT_DAEMON_STEP=setup_spark
+      - "INIT_DAEMON_STEP=setup_spark"
       - "spark.ui.reverseProxy=true"
       - "spark.driver.bindAddress=0.0.0.0"
       - "PYSPARK_PYTHON=python3"
@@ -37,6 +37,10 @@ services:
     volumes:
       - $PWD/data:/home/jovyan/data
       - $PWD/script:/home/jovyan/script
+      - spark-events:/tmp/spark-events
+    secrets:
+      - source: spark-defaults.conf
+        target: /spark/conf/spark-defaults.conf
 
   spark-worker:
     image: bde2020/spark-worker:2.4.5-hadoop2.7
@@ -58,3 +62,15 @@ services:
           cpus: '1'
         reservations:
           cpus: '1'
+
+  history-server:
+    image: bde2020/spark-base:2.4.5-hadoop2.7
+    ports:
+      - 18080:18080
+    volumes:
+      - spark-events:/tmp/spark-events:ro
+    command: java -cp /spark/conf/:/spark/jars/* -Xmx1g org.apache.spark.deploy.history.HistoryServer
+
+secrets:
+  spark-defaults.conf:
+    file: ./spark-defaults.conf
