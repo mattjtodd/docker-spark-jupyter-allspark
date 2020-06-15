@@ -16,6 +16,7 @@ This is an example project to demonstrate how to connect a Jupyter notebook to a
 * http://localhost:5000 - Master Spark Node
 * http://localhost:4040 - Spark Context
 * http://localhost:8081 - Worker Node(s) loadbalanced if running in swarm mode / scaled compose
+* http://localhost:18080 - Spark Master history Server
 
 ## Basic Setup
 
