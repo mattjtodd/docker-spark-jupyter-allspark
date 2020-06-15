@@ -67,7 +67,7 @@ services:
   history-server:
     image: bde2020/spark-base:2.4.5-hadoop2.7
     ports:
-      - 18081:18080
+      - 18080:18080
     volumes:
       - spark-events:/tmp/spark-events:ro
     command: java -cp /spark/conf/:/spark/jars/* -Xmx1g org.apache.spark.deploy.history.HistoryServer
